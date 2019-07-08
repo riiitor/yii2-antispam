@@ -1,9 +1,10 @@
 <?php
 namespace cleantalk\antispam;
 
-use Cleantalk;
-use CleantalkRequest;
+use lib\Cleantalk;
+use lib\CleantalkRequest;
 use InvalidArgumentException;
+use lib\CleantalkResponse;
 use Yii;
 use yii\base\Component as BaseComponent;
 use yii\base\InvalidConfigException;
@@ -20,7 +21,7 @@ use yii\helpers\Json;
  */
 class Component extends BaseComponent
 {
-    const AGENT_VERSION = 'yii2-1.0.0';
+    const AGENT_VERSION = 'yii2-ritor-1.1.0';
     const KEY_SESSION_FORM_SUBMIT = 'ct_form_submit';
 
     /** @var string API key */
@@ -134,7 +135,7 @@ class Component extends BaseComponent
 
     /**
      * Create request for CleanTalk API.
-     * @return \CleantalkRequest
+     * @return CleantalkRequest
      */
     protected function createRequest()
     {
@@ -155,9 +156,9 @@ class Component extends BaseComponent
     }
 
     /**
-     * @param \CleantalkRequest $request
+     * @param CleantalkRequest $request
      * @param string $method
-     * @return \CleantalkResponse CleanTalk API call result
+     * @return CleantalkResponse CleanTalk API call result
      * @throws InvalidArgumentException
      */
     protected function sendRequest($request, $method)

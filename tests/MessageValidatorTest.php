@@ -3,19 +3,28 @@ namespace cleantalk\antispam\tests;
 
 use cleantalk\antispam\Component as CleantalkComponent;
 use cleantalk\antispam\validators\MessageValidator;
-use CleantalkResponse;
-use PHPUnit_Framework_TestCase;
+use lib\CleantalkResponse;
+use PHPUnit\Framework\TestCase;
 use Yii;
 use yii\base\Model;
 
 /**
  * @coversDefaultClass \cleantalk\antispam\Api\validators\MessageValidatorTest
  */
-class MessageValidatorTest extends PHPUnit_Framework_TestCase
+class MessageValidatorTest extends TestCase
 {
+    protected function setUp()
+    {
+        @session_start();
+    }
+
     protected function setResponse($allow, $message)
     {
-        $mock = $this->getMock(CleantalkComponent::className(), ['sendRequest'], [['apiKey' => CLEANTALK_TEST_API_KEY]]);
+        $mock = $this->getMockBuilder(CleantalkComponent::className())
+            ->setMethods(['sendRequest'])
+            ->setConstructorArgs([['apiKey' => CLEANTALK_TEST_API_KEY]])
+            ->getMock();
+
         $mock->expects($this->once())
             ->method('sendRequest')
             ->will(

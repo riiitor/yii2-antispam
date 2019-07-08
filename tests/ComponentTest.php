@@ -2,17 +2,17 @@
 namespace cleantalk\antispam\tests;
 
 use cleantalk\antispam\Component as CleantalkComponent;
-use CleantalkRequest;
-use CleantalkResponse;
 use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
+use lib\CleantalkRequest;
+use lib\CleantalkResponse;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Yii;
 
 /**
  * @coversDefaultClass \cleantalk\antispam\Component
  */
-class ComponentTest extends PHPUnit_Framework_TestCase
+class ComponentTest extends TestCase
 {
     /**
      * @var \cleantalk\antispam\Component
@@ -24,6 +24,7 @@ class ComponentTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        @session_start();
         $this->component = Yii::createObject(['class' => CleantalkComponent::className(), 'apiKey' => CLEANTALK_TEST_API_KEY]);
     }
 
@@ -119,7 +120,7 @@ class ComponentTest extends PHPUnit_Framework_TestCase
         $method = $class->getMethod('createRequest');
         $method->setAccessible(true);
         $request = $method->invoke($this->component);
-        $this->assertInstanceOf('CleantalkRequest', $request);
+        $this->assertInstanceOf(CleantalkRequest::class, $request);
     }
 
     /**
@@ -135,7 +136,10 @@ class ComponentTest extends PHPUnit_Framework_TestCase
 
     protected function getSendRequestMock($response)
     {
-        $mock = $this->getMock(CleantalkComponent::className(), ['sendRequest'], [['apiKey' => CLEANTALK_TEST_API_KEY]]);
+        $mock = $this->getMockBuilder(CleantalkComponent::className())
+            ->setMethods(['sendRequest'])
+            ->setConstructorArgs([['apiKey' => CLEANTALK_TEST_API_KEY]])
+            ->getMock();
         $mock->expects($this->once())
             ->method('sendRequest')
             ->will(

@@ -8,11 +8,11 @@
   ],
   "type": "yii2-extension",
   "require": {
-    "cleantalk/php-antispam": "~2.0.0"
+    "cleantalk/php-antispam": "2.3"
   },
   "require-dev": {
     "yiisoft/yii2": "~2.0.0",
-    "phpunit/phpunit": "~4.6.9"
+    "phpunit/phpunit": "6"
   },
   "license": "GPL-3.0",
   "authors": [
@@ -23,5 +23,11 @@
   ],
   "autoload": {
     "psr-4": {"cleantalk\\antispam\\": ""}
-  }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
 }
